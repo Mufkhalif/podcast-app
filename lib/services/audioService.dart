@@ -11,9 +11,12 @@ class AudioPlayerTask extends BackgroundAudioTask {
   Seeker? _seeker;
   late StreamSubscription<PlaybackEvent> _eventSubscription;
 
-  List<MediaItem> get queue => _mediaLibrary.items;
+  List<MediaItem> queue = [];
+
   int? get index => _player.currentIndex;
   MediaItem? get mediaItem => index == null ? null : queue[index!];
+
+  late ConcatenatingAudioSource concatenatingAudioSource;
 
   @override
   Future<void> onStart(Map<String, dynamic>? params) async {
@@ -24,7 +27,8 @@ class AudioPlayerTask extends BackgroundAudioTask {
     await session.configure(AudioSessionConfiguration.speech());
     // Broadcast media item changes.
     _player.currentIndexStream.listen((index) {
-      if (index != null) AudioServiceBackground.setMediaItem(queue[index]);
+      if (index != null && queue.isNotEmpty)
+        AudioServiceBackground.setMediaItem(queue[0]);
     });
     // Propagate all events from the audio player to AudioService clients.
     _eventSubscription = _player.playbackEventStream.listen((event) {
@@ -47,19 +51,31 @@ class AudioPlayerTask extends BackgroundAudioTask {
       }
     });
 
-    // Load and broadcast the queue
-    AudioServiceBackground.setQueue(queue);
-    try {
-      await _player.setAudioSource(ConcatenatingAudioSource(
-        children:
-            queue.map((item) => AudioSource.uri(Uri.parse(item.id))).toList(),
-      ));
-      // In this example, we automatically start playing on start.
-      onPlay();
-    } catch (e) {
-      print("Error: $e");
-      onStop();
-    }
+    //Load and broadcast the queue
+    // AudioServiceBackground.setQueue(queue);
+    // try {
+    //   await _player.setAudioSource(ConcatenatingAudioSource(
+    //     children:
+    //         queue.map((item) => AudioSource.uri(Uri.parse(item.id))).toList(),
+    //   ));
+    //   onPlay();
+    // } catch (e) {
+    //   print("Error: $e");
+    //   onStop();
+    // }
+  }
+
+  @override
+  Future<void> onUpdateQueue(List<MediaItem> _queue) async {
+    await AudioServiceBackground.setQueue(_queue);
+    await AudioServiceBackground.setMediaItem(_queue[0]);
+    concatenatingAudioSource = ConcatenatingAudioSource(
+      children:
+          _queue.map((item) => AudioSource.uri(Uri.parse(item.id))).toList(),
+    );
+    await _player.setAudioSource(concatenatingAudioSource);
+    _player.seek(Duration.zero, index: index);
+    queue = _queue;
   }
 
   @override

@@ -1,15 +1,19 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:podcast_app/services/audioService.dart';
+import 'package:podcast_app/models/podcast_model.dart';
 import 'package:podcast_app/theme/theme.dart';
 import 'package:podcast_app/ui/detail_podcast.dart';
 import 'package:podcast_app/widgets/badge.dart';
 
 class CardTop extends StatelessWidget {
+  final PodcastModel item;
+
+  CardTop({required this.item});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // pC.goToDetail(item);
         // AudioService.stop();
         // AudioService.start(
         //   backgroundTaskEntrypoint: _audioPlayerTaskEntryPoint,
@@ -21,7 +25,7 @@ class CardTop extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
-            return DetailPodcast();
+            return DetailPodcast(item: item);
           }),
         );
       },
@@ -55,7 +59,7 @@ class CardTop extends StatelessWidget {
                   topRight: Radius.circular(14),
                 ),
                 child: Image.network(
-                  'https://images.unsplash.com/photo-1625909244134-2e2412edd4cd?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                  item.imgSrc,
                   width: 241,
                   height: 183,
                   fit: BoxFit.cover,
@@ -72,7 +76,7 @@ class CardTop extends StatelessWidget {
                     Badge(),
                     SizedBox(height: 10),
                     Text(
-                      'Mengatur waktu belajar agar lebih produktir',
+                      item.title,
                       style: boldText.copyWith(
                         fontSize: 16,
                       ),
@@ -89,7 +93,7 @@ class CardTop extends StatelessWidget {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              '12 Des 2021',
+                              item.date,
                               style: regularText.copyWith(
                                 fontSize: 12,
                                 color: Color(0xffA0A9B5),
@@ -107,7 +111,7 @@ class CardTop extends StatelessWidget {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              '47 menit',
+                              item.time,
                               style: regularText.copyWith(
                                 fontSize: 12,
                                 color: Color(0xffA0A9B5),
@@ -126,8 +130,4 @@ class CardTop extends StatelessWidget {
       ),
     );
   }
-}
-
-void _audioPlayerTaskEntryPoint() async {
-  AudioServiceBackground.run(() => AudioPlayerTask());
 }

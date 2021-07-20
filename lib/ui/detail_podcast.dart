@@ -3,12 +3,16 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:podcast_app/models/audio_model.dart';
+import 'package:podcast_app/models/podcast_model.dart';
 import 'package:podcast_app/services/audioService.dart';
 import 'package:podcast_app/theme/theme.dart';
 import 'package:podcast_app/widgets/seekerBar.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DetailPodcast extends StatefulWidget {
+  final PodcastModel item;
+
+  DetailPodcast({required this.item});
   @override
   _DetailPodcastState createState() => _DetailPodcastState();
 }
@@ -32,8 +36,6 @@ class _DetailPodcastState extends State<DetailPodcast> {
           AudioService.start(
             backgroundTaskEntrypoint: _audioPlayerTaskEntryPoint,
             androidNotificationChannelName: 'Audio Service Demo',
-            // Enable this if you want the Android service to exit the foreground state on pause.
-            //androidStopForegroundOnPause: true,
             androidNotificationColor: 0xFF2196f3,
             androidNotificationIcon: 'mipmap/ic_launcher',
             androidEnableQueue: true,
@@ -41,9 +43,65 @@ class _DetailPodcastState extends State<DetailPodcast> {
         },
       );
 
+  onUpdateQue() async {
+    List<MediaItem> globalQueue = [
+      MediaItem(
+        id: "https://firebasestorage.googleapis.com/v0/b/podcastapp-14a25.appspot.com/o/%5BMV%5D%20Ysabelle%20CuevasINS-REPLAY%2C%20Vol.%204%20Creating%20Love.mp3?alt=media&token=bc29a802-5857-4a95-b51a-d526a4c92b18",
+        album: 'hello',
+        duration: Duration(seconds: 180),
+        title: "Masalahnya ada di aku atau kamu?",
+        artist: "Chandra",
+        artUri: Uri.parse(
+            "https://images.unsplash.com/photo-1556761175-129418cb2dfe?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBvZGNhc3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+      )
+    ];
+
+    await AudioService.start(
+      backgroundTaskEntrypoint: _audioPlayerTaskEntryPoint,
+      androidNotificationChannelName: 'Podcast',
+      androidNotificationColor: 0xFF181818,
+      androidEnableQueue: true,
+    );
+
+    await AudioService.updateQueue(globalQueue);
+    await AudioService.play();
+  }
+
+  onUpdateChange() async {
+    await AudioService.stop();
+
+    List<MediaItem> globalQueue = [
+      MediaItem(
+        id: widget.item.url,
+        album: 'hello',
+        duration: Duration(seconds: 180),
+        title: widget.item.title,
+        artist: "Chandra",
+        artUri: Uri.parse(widget.item.imgSrc),
+      )
+    ];
+
+    await AudioService.start(
+      backgroundTaskEntrypoint: _audioPlayerTaskEntryPoint,
+      androidNotificationChannelName: 'Podcast',
+      androidNotificationColor: 0xFF181818,
+      androidEnableQueue: true,
+    );
+
+    await AudioService.updateQueue(globalQueue);
+    await AudioService.play();
+  }
+
+  @override
+  void initState() {
+    onUpdateChange();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: StreamBuilder<bool>(
           stream: AudioService.runningStream,
@@ -118,70 +176,47 @@ class _DetailPodcastState extends State<DetailPodcast> {
                           child: Center(
                             child: Column(
                               children: [
-                                StreamBuilder<MediaState>(
-                                  stream: _mediaStateStream,
-                                  builder: (context, snapshot) {
-                                    final mediaState = snapshot.data ?? null;
-
-                                    if (mediaState == null) {
-                                      return Container();
-                                    } else {
-                                      return Container(
-                                        width: width * 0.9,
-                                        height: width * 0.9,
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            8.0,
-                                          ),
-                                          child: Image.network(
-                                            mediaState.mediaItem!.artUri!
-                                                .toString(),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  },
+                                Container(
+                                  width: width * 0.9,
+                                  height: width * 0.9,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                      8.0,
+                                    ),
+                                    child: Image.network(
+                                      widget.item.imgSrc,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(height: 24),
-                                StreamBuilder<MediaState?>(
-                                    stream: _mediaStateStream,
-                                    builder: (context, snapshot) {
-                                      final mediaState = snapshot.data ?? null;
-
-                                      if (mediaState == null) {
-                                        return Container();
-                                      }
-
-                                      return Container(
-                                        width: width,
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 20,
+                                Container(
+                                  width: width,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.item.title,
+                                        style: boldText.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 20,
                                         ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              mediaState.mediaItem!.title,
-                                              style: boldText.copyWith(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            SizedBox(height: 13),
-                                            Text(
-                                              mediaState.mediaItem!.artist
-                                                  .toString(),
-                                              style: regularText.copyWith(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
+                                      ),
+                                      SizedBox(height: 13),
+                                      Text(
+                                        widget.item.type.toString(),
+                                        style: regularText.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 16,
                                         ),
-                                      );
-                                    }),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 SizedBox(
                                   height: 30,
                                 ),
@@ -189,16 +224,24 @@ class _DetailPodcastState extends State<DetailPodcast> {
                                   stream: _mediaStateStream,
                                   builder: (context, snapshot) {
                                     final mediaState = snapshot.data;
-                                    return SeekBar(
-                                      duration:
-                                          mediaState?.mediaItem?.duration ??
-                                              Duration.zero,
-                                      position:
-                                          mediaState?.position ?? Duration.zero,
-                                      onChangeEnd: (newPosition) {
-                                        AudioService.seekTo(newPosition);
-                                      },
-                                    );
+
+                                    if (mediaState != null) {
+                                      return SeekBar(
+                                        duration:
+                                            mediaState.mediaItem?.duration ??
+                                                Duration.zero,
+                                        position: mediaState.position,
+                                        onChangeEnd: (newPosition) {
+                                          AudioService.seekTo(newPosition);
+                                        },
+                                      );
+                                    } else {
+                                      return SeekBar(
+                                        duration: Duration.zero,
+                                        position: Duration.zero,
+                                        onChangeEnd: (newPosition) {},
+                                      );
+                                    }
                                   },
                                 ),
                                 SizedBox(
@@ -262,9 +305,57 @@ class _DetailPodcastState extends State<DetailPodcast> {
                                                   snapshot.data ??
                                                       AudioProcessingState.none;
 
-                                              if (describeEnum(
-                                                      processingState) ==
-                                                  "buffering") {
+                                              final processState =
+                                                  describeEnum(processingState);
+
+                                              if (processState == "ready") {
+                                                return Container(
+                                                  child: StreamBuilder<bool>(
+                                                    stream: AudioService
+                                                        .playbackStateStream
+                                                        .map((event) =>
+                                                            event.playing)
+                                                        .distinct(),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      final playing =
+                                                          snapshot.data ??
+                                                              false;
+                                                      return Column(
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              if (playing) {
+                                                                AudioService
+                                                                    .pause();
+                                                              } else {
+                                                                AudioService
+                                                                    .play();
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                horizontal: 20,
+                                                              ),
+                                                              child: Icon(
+                                                                playing
+                                                                    ? Icons
+                                                                        .pause_circle_filled
+                                                                    : Icons
+                                                                        .play_circle_filled,
+                                                                size: 60,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              } else {
                                                 return Container(
                                                   width: 40,
                                                   height: 40,
@@ -278,43 +369,6 @@ class _DetailPodcastState extends State<DetailPodcast> {
                                                   ),
                                                 );
                                               }
-                                              return Container(
-                                                child: StreamBuilder<bool>(
-                                                  stream: AudioService
-                                                      .playbackStateStream
-                                                      .map((event) =>
-                                                          event.playing)
-                                                      .distinct(),
-                                                  builder: (context, snapshot) {
-                                                    final playing =
-                                                        snapshot.data ?? false;
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        if (playing) {
-                                                          AudioService.pause();
-                                                        } else {
-                                                          AudioService.play();
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        margin: EdgeInsets
-                                                            .symmetric(
-                                                          horizontal: 20,
-                                                        ),
-                                                        child: Icon(
-                                                          playing
-                                                              ? Icons
-                                                                  .pause_circle_filled
-                                                              : Icons
-                                                                  .play_circle_filled,
-                                                          size: 60,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              );
                                             },
                                           ),
                                           StreamBuilder<QueueState>(

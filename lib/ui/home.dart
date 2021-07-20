@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:podcast_app/controller/popularController.dart';
 import 'package:podcast_app/theme/theme.dart';
 import 'package:podcast_app/widgets/cardTop.dart';
 import 'package:podcast_app/widgets/cardVertical.dart';
@@ -130,18 +132,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   SizedBox(height: 21),
-                  Container(
-                    height: 300,
-                    child: ListView(
-                      clipBehavior: Clip.none,
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        CardTop(),
-                        CardTop(),
-                        CardTop(),
-                      ],
-                    ),
-                  ),
+                  ListPopular(),
                   SizedBox(height: 31),
                   Container(
                     padding: EdgeInsets.symmetric(
@@ -174,6 +165,29 @@ class _HomeState extends State<Home> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ListPopular extends StatelessWidget {
+  final PopularController popularC = Get.put(PopularController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 320,
+      child: GetBuilder<PopularController>(
+        builder: (_) {
+          return ListView.builder(
+            itemCount: popularC.list.length,
+            clipBehavior: Clip.none,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              return CardTop(item: popularC.list[index]);
+            },
+          );
+        },
       ),
     );
   }
