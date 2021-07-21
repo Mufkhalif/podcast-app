@@ -6,22 +6,14 @@ import 'package:podcast_app/widgets/badge.dart';
 
 class CardTop extends StatelessWidget {
   final PodcastModel item;
+  final List<PodcastModel> queueList;
 
-  CardTop({required this.item});
+  CardTop({required this.item, required this.queueList});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // pC.goToDetail(item);
-        // AudioService.stop();
-        // AudioService.start(
-        //   backgroundTaskEntrypoint: _audioPlayerTaskEntryPoint,
-        //   androidNotificationChannelName: 'Audio Service Demo',
-        //   androidNotificationColor: 0xFF2196f3,
-        //   androidNotificationIcon: 'mipmap/ic_launcher',
-        //   androidEnableQueue: true,
-        // );
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {

@@ -43,30 +43,6 @@ class _DetailPodcastState extends State<DetailPodcast> {
         },
       );
 
-  onUpdateQue() async {
-    List<MediaItem> globalQueue = [
-      MediaItem(
-        id: "https://firebasestorage.googleapis.com/v0/b/podcastapp-14a25.appspot.com/o/%5BMV%5D%20Ysabelle%20CuevasINS-REPLAY%2C%20Vol.%204%20Creating%20Love.mp3?alt=media&token=bc29a802-5857-4a95-b51a-d526a4c92b18",
-        album: 'hello',
-        duration: Duration(seconds: 180),
-        title: "Masalahnya ada di aku atau kamu?",
-        artist: "Chandra",
-        artUri: Uri.parse(
-            "https://images.unsplash.com/photo-1556761175-129418cb2dfe?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBvZGNhc3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-      )
-    ];
-
-    await AudioService.start(
-      backgroundTaskEntrypoint: _audioPlayerTaskEntryPoint,
-      androidNotificationChannelName: 'Podcast',
-      androidNotificationColor: 0xFF181818,
-      androidEnableQueue: true,
-    );
-
-    await AudioService.updateQueue(globalQueue);
-    await AudioService.play();
-  }
-
   onUpdateChange() async {
     await AudioService.stop();
 
@@ -109,11 +85,12 @@ class _DetailPodcastState extends State<DetailPodcast> {
             if (snapshot.connectionState != ConnectionState.active) {
               return SizedBox();
             }
-
             final running = snapshot.data ?? false;
 
             if (!running) {
-              return Center(child: audioPlayerButton());
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
 
             return Container(

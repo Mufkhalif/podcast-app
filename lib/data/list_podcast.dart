@@ -2,7 +2,7 @@ var listPopular = [
   {
     "id": 1,
     "title": "Masalahnya ada di aku atau kamu?",
-    "imgSrc":
+    "cover":
         "https://images.unsplash.com/photo-1556761175-129418cb2dfe?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBvZGNhc3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     "type": "podcast",
     "date": "17 desember 2021",
@@ -14,7 +14,7 @@ var listPopular = [
   {
     "id": 2,
     "title": "Masalahnya ada di aku atau kamu?",
-    "imgSrc":
+    "cover":
         "https://images.unsplash.com/photo-1581547848545-a75a2634ba23?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBvZGNhc3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     "type": "podcast",
     "date": "17 desember 2021",
@@ -26,7 +26,7 @@ var listPopular = [
   {
     "id": 3,
     "title": "Masalahnya ada di aku atau kamu?",
-    "imgSrc":
+    "cover":
         "https://images.unsplash.com/photo-1581368087049-7034ed0d1e6f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHBvZGNhc3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     "type": "podcast",
     "date": "17 desember 2021",

@@ -5,7 +5,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:podcast_app/models/audio_model.dart';
 
 class AudioPlayerTask extends BackgroundAudioTask {
-  final _mediaLibrary = MediaLibrary();
   AudioPlayer _player = new AudioPlayer();
   AudioProcessingState? _skipState;
   Seeker? _seeker;

@@ -57,83 +57,92 @@ class _HomeState extends State<Home> {
       ),
       body: Stack(
         children: [
-          Container(
-            width: double.infinity,
-            height: 300,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              gradient: const LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment
-                    .bottomLeft, // 10% of the width, so there are ten blinds.
-                colors: [
-                  Color(0xff2D51D0),
-                  Color(0xff0B2990),
-                ], // red to yellow
-              ),
-            ),
-          ),
           SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(top: 70),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Container(
-                      width: width - 30,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 10,
+                  Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 400,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          gradient: const LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment
+                                .bottomLeft, // 10% of the width, so there are ten blinds.
+                            colors: [
+                              Color(0xff2D51D0),
+                              Color(0xff0B2990),
+                            ], // red to yellow
+                          ),
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
                         children: [
-                          Text(
-                            'Search Podcast',
-                            style: regularText.copyWith(
-                              color: Colors.white.withOpacity(0.7),
+                          SizedBox(height: 70),
+                          Center(
+                            child: Container(
+                              width: width - 30,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Search Podcast',
+                                    style: regularText.copyWith(
+                                      color: Colors.white.withOpacity(0.7),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.search,
+                                    color: Colors.white.withOpacity(0.7),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white.withOpacity(0.7),
-                          )
+                          SizedBox(height: 40),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Podcast in Trending',
+                                  style: boldText.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                Text(
+                                  'See All',
+                                  style: regularText.copyWith(
+                                    color: Colors.white.withOpacity(0.6),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 21),
+                          ListPopular(),
+                          SizedBox(height: 31),
                         ],
                       ),
-                    ),
+                    ],
                   ),
-                  SizedBox(height: 40),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Podcast in Trending',
-                          style: boldText.copyWith(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          'See All',
-                          style: regularText.copyWith(
-                            color: Colors.white.withOpacity(0.6),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 21),
-                  ListPopular(),
-                  SizedBox(height: 31),
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 16,
@@ -184,7 +193,10 @@ class ListPopular extends StatelessWidget {
             clipBehavior: Clip.none,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
-              return CardTop(item: popularC.list[index]);
+              return CardTop(
+                item: popularC.list[index],
+                queueList: popularC.list,
+              );
             },
           );
         },
