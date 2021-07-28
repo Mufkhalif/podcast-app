@@ -27,8 +27,8 @@ class PodcastModel {
     return PodcastModel(
       id: json['id'] ?? "0",
       title: json['title'] ?? "tanpa judul",
-      date: json['date'] ?? "tanpa date",
-      time: json['time'] ?? "tanpa time",
+      date: "tanpa date",
+      time: json['time'].toString(),
       imgSrc: json['cover'] ??
           "https://previews.123rf.com/images/oksanaoo/oksanaoo2002/oksanaoo200200025/141014443-podcast-vector-icon-seamless-pattern-on-a-white-background-layers-grouped-for-easy-editing-illustrat.jpg",
       type: json['type'] ?? "tanpa type",
@@ -43,7 +43,7 @@ class PodcastModel {
       id: '2',
       title: 'title',
       date: 'date',
-      time: 'time',
+      time: "0",
       imgSrc: 'img',
       type: 'type',
       desc: 'desc',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:podcast_app/controller/audioController.dart';
 import 'package:podcast_app/controller/popularController.dart';
 import 'package:podcast_app/theme/theme.dart';
 import 'package:podcast_app/widgets/cardTop.dart';
@@ -12,49 +13,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentIndex = 0;
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xffF7F8FA),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: primaryColor,
-        unselectedItemColor: Color(0xffE5E5E5),
-        selectedFontSize: 14,
-        unselectedFontSize: 14,
-        onTap: onTabTapped, // new
-        currentIndex: _currentIndex, //
-        selectedLabelStyle: boldText.copyWith(color: primaryColor),
-        unselectedLabelStyle: boldText.copyWith(color: Color(0xffE5E5E5)),
-        items: [
-          BottomNavigationBarItem(
-            label: 'Explore',
-            icon: Icon(Icons.explore_outlined),
-          ),
-          BottomNavigationBarItem(
-            label: 'Cari',
-            icon: Icon(Icons.search),
-          ),
-          BottomNavigationBarItem(
-            label: 'Simpan',
-            icon: Icon(Icons.bookmark),
-          ),
-          BottomNavigationBarItem(
-            label: 'Profile',
-            icon: Icon(Icons.person_sharp),
-          ),
-        ],
-      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -181,11 +144,12 @@ class _HomeState extends State<Home> {
 
 class ListPopular extends StatelessWidget {
   final PopularController popularC = Get.put(PopularController());
+  final AudioController aC = Get.put(AudioController());
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 320,
+      height: 290,
       child: GetBuilder<PopularController>(
         builder: (_) {
           return ListView.builder(

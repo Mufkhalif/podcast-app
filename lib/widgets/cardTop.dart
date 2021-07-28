@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:podcast_app/controller/audioController.dart';
 import 'package:podcast_app/models/podcast_model.dart';
 import 'package:podcast_app/theme/theme.dart';
 import 'package:podcast_app/ui/detail_podcast.dart';
@@ -8,10 +10,17 @@ class CardTop extends StatelessWidget {
   final PodcastModel item;
   final List<PodcastModel> queueList;
 
-  CardTop({required this.item, required this.queueList});
+  final AudioController ac = Get.find<AudioController>();
+
+  CardTop({
+    required this.item,
+    required this.queueList,
+  });
 
   @override
   Widget build(BuildContext context) {
+    var durasi = (double.parse(item.time) / 60).toString().substring(0, 3);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -103,7 +112,7 @@ class CardTop extends StatelessWidget {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              item.time,
+                              '$durasi menit',
                               style: regularText.copyWith(
                                 fontSize: 12,
                                 color: Color(0xffA0A9B5),
