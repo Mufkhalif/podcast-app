@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controller/audioController.dart';
-import 'package:podcast_app/models/audio_model.dart';
-import 'package:podcast_app/models/podcast_model.dart';
+import 'package:podcast_app/models/audio.dart';
+import 'package:podcast_app/models/podcast.dart';
 import 'package:podcast_app/services/audioService.dart';
 import 'package:podcast_app/theme/theme.dart';
-import 'package:podcast_app/widgets/seekerBar.dart';
+import 'package:podcast_app/widgets/seeker_bar.dart';
 import 'package:rxdart/rxdart.dart' as Rx;
 
 class DetailPodcast extends StatefulWidget {

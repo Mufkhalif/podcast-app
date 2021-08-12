@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:podcast_app/models/podcast_model.dart';
+import 'package:podcast_app/models/podcast.dart';
 
 class PopularController extends GetxController {
   List<PodcastModel> list = [];

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:podcast_app/controller/audioController.dart';
 import 'package:podcast_app/controller/popularController.dart';
 import 'package:podcast_app/theme/theme.dart';
-import 'package:podcast_app/widgets/cardTop.dart';
-import 'package:podcast_app/widgets/cardVertical.dart';
+import 'package:podcast_app/widgets/card_top.dart';
+import 'package:podcast_app/widgets/card_vertical.dart';
 
 class Home extends StatefulWidget {
   @override

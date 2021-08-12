@@ -1,7 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:podcast_app/models/audio_model.dart';
+import 'package:podcast_app/models/audio.dart';
 
 class ControllButton extends StatelessWidget {
   const ControllButton({

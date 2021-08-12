@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controller/audioController.dart';
-import 'package:podcast_app/models/podcast_model.dart';
+import 'package:podcast_app/models/podcast.dart';
 import 'package:podcast_app/theme/theme.dart';
-import 'package:podcast_app/ui/detail_podcast.dart';
+import 'package:podcast_app/ui/detail_podcast/detail_podcast.dart';
 import 'package:podcast_app/widgets/badge.dart';
 
 class CardTop extends StatelessWidget {
