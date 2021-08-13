@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "913585463865-3oa5u1075kphdjsc2onr130nms62n9k8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.podcast_app",
+            "certificate_hash": "92fa35fed5579ce1e49c3fa0bd43ed40a261e5a7"
+          }
+        },
+        {
           "client_id": "913585463865-ufaghlu0vahhnirhpdpk56h658rsgl6r.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "913585463865-ufaghlu0vahhnirhpdpk56h658rsgl6r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "913585463865-9098j9upqjl2tndtfsirfakmqu8pj9se.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.podcastApp"
+              }
             }
           ]
         }
