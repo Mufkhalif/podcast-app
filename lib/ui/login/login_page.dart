@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
           create: (_) => LoginCubit(
             context.read<AuthenticationRepository>(),
           ),
-          child: const LoginForm(),
+          child: LoginForm(),
         ),
       ),
     );

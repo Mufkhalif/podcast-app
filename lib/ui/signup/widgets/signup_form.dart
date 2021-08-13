@@ -104,9 +104,8 @@ class _ConfrimPasswordInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Confirmed Password',
             helperText: '',
-            errorText: state.confirmedPassword.invalid
-                ? 'passwords do not match'
-                : null,
+            errorText:
+                state.confirmedPassword.invalid ? 'password not match' : null,
           ),
         );
       },
@@ -128,14 +127,12 @@ class _SignUpButton extends StatelessWidget {
                 key: const Key('loginForm_continue_raisedButton'),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  primary: const Color(0xFFFFD600),
+                      borderRadius: BorderRadius.circular(30.0)),
                 ),
                 onPressed: state.status.isValidated
                     ? () => context.read<SignUpCubit>().signUpFormSubmitted()
                     : null,
-                child: Text('Login'),
+                child: Text('Signup'),
               );
       },
     );

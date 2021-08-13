@@ -6,8 +6,6 @@ import 'package:podcast_app/ui/login/cubit/login_state.dart';
 import 'package:podcast_app/ui/signup/signup_pages.dart';
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
@@ -42,8 +40,6 @@ class LoginForm extends StatelessWidget {
 }
 
 class _EmaiInput extends StatelessWidget {
-  const _EmaiInput({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
@@ -65,8 +61,6 @@ class _EmaiInput extends StatelessWidget {
 }
 
 class _PasswordInput extends StatelessWidget {
-  const _PasswordInput({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
@@ -78,9 +72,9 @@ class _PasswordInput extends StatelessWidget {
               context.read<LoginCubit>().passwordChanged(passsword),
           obscureText: true,
           decoration: InputDecoration(
-            labelText: 'Email',
+            labelText: 'Password',
             helperText: '',
-            errorText: state.email.invalid ? 'invalid email' : null,
+            errorText: state.password.invalid ? 'invalid password' : null,
           ),
         );
       },
@@ -89,8 +83,6 @@ class _PasswordInput extends StatelessWidget {
 }
 
 class _LoginButton extends StatelessWidget {
-  const _LoginButton({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
@@ -117,30 +109,23 @@ class _LoginButton extends StatelessWidget {
 }
 
 class _GoogleLoginButton extends StatelessWidget {
-  const _GoogleLoginButton({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton.icon(
-                label: Text('SIGN WITH GOOGLE'),
-                key: const Key('loginForm_continue_raisedButton'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  primary: theme.accentColor,
-                ),
-                onPressed: state.status.isValidated
-                    ? () => context.read<LoginCubit>().loginWithGoogle()
-                    : null,
-                icon: Icon(Icons.login, color: Colors.white),
-              );
+        return ElevatedButton.icon(
+          label: Text('SIGN WITH GOOGLE'),
+          key: const Key('loginForm_continue_raisedButton'),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            primary: theme.accentColor,
+          ),
+          onPressed: () => context.read<LoginCubit>().loginWithGoogle(),
+          icon: Icon(Icons.login, color: Colors.white),
+        );
       },
     );
   }
